@@ -6,10 +6,14 @@
 #include <bitset>
 #include <array>
 
+
 /*Manager which holds entities, which are anything drawn in the game.
 Each entity has components, which give it functionality. 
 Each component has it's own class, so templates and other fancy stuff are required in order to get and add components.*/
 /*An Entity-Component-System – mostly encountered in video games – is a design pattern which allows you great flexibility in designing your overall software architecture[1].*/
+//Idk if I should just do this with classes and structs lmao this is too much for my tiny brain
+//At least I understand what this does lmao 
+//This part of the code is about to give me an anxiety attack no joke
 
 class Component;
 class Entity;
@@ -24,8 +28,8 @@ inline ComponentID getComponentTypeID() //funkcija skirta kurti kiekvieno Compon
 
 template <typename T> inline ComponentID getComponentTypeID() noexcept
 {
-	static ComponentID typeID = getComponentID(); //kuriamas component ID naudojant funkcija
-	return typeID();
+	static ComponentID typeID = getComponentTypeID(); //kuriamas component ID naudojant funkcija
+	return typeID;
 }
 
 constexpr std::size_t maxComponents = 32;//kiek daugiausiai gali buti components
@@ -33,7 +37,7 @@ constexpr std::size_t maxComponents = 32;//kiek daugiausiai gali buti components
 using ComponentBitSet = std::bitset<maxComponents>; //Component BitSet leidzia mums zinoti ar entity turi tam tikra component
 using ComponentArray = std::array < Component*, maxComponents>; //Component pointers masyvas, kurio dydis yra maxComponents
 
-class Component
+class Component 
 {
 	public:
 		Entity* entity;
@@ -56,18 +60,16 @@ class Entity
 		void update() //entity loops through all components
 		{
 			for (auto& c : components) c->update();
-			for (auto& c : components) c->draw();
-
 		}
 		void draw() {
-
+			for (auto& c : components) c->draw();
 		}
 		bool isActive() const { return active; }
 		void destroy() { active = false; }
 
 		template <typename T> bool hasComponent() const
 		{
-			return componentBitSet[getComponentID<T>];
+			return componentBitSet[getComponentTypeID<T>];
 		}
 
 		template <typename T, typename... TArgs>
@@ -77,7 +79,7 @@ class Entity
 			c->entity = this;
 			std::unique_ptr<Component> uPtr{ c };
 			components.emplace_back(std::move(uPtr));
-			
+
 			componentArray[getComponentTypeID<T>()] = c;
 			componentBitSet[getComponentTypeID<T>()] = true;
 
@@ -87,8 +89,40 @@ class Entity
 
 		template<typename T> T& getComponent() const
 		{
-			auto ptr(componentArray[getComponentTypeID<T>()])
+			auto ptr(componentArray[getComponentTypeID<T>()]);
+			return *static_cast<T*>(ptr);
 		}
+	};
+
+class Manager
+{
+	private:
+		std::vector<std::unique_ptr<Entity>> entities;
+	public:
+		void update()
+		{
+			for (auto& e : entities) e->update();
+		}
+		void draw()
+		{
+			for (auto& e : entities) e->draw();
+		}
+		void refresh()
+		{
+			entities.erase(std::remove_if(std::begin(entities), std::end(entities), [](const std::unique_ptr<Entity>& mEntity)
+				{
+					return !mEntity->isActive();
+				}),
+				std::end(entities));
+
+		}
+		Entity& addEntity()
+		{
+			Entity* e = new Entity();
+			std::unique_ptr<Entity> uPtr{ e };
+			entities.emplace_back(std::move(uPtr)); 
+			return *e;
+
+		}
+
 };
-
-

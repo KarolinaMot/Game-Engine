@@ -1,16 +1,19 @@
-﻿#include "CApp.h"
+﻿#include "Engine.h"
 #include "TextureManager.h"
-#include "GameObject.h"
 #include "Map.h"
+#include "ECS.h"
+#include "PositionComponent.h"
+#include "SpriteComponent.h"
 #include <iostream>
 
 int count = 0;
-GameObject* player;
-GameObject* enemy;
 Map* map;
-SDL_Renderer* CApp::renderer = nullptr;
+SDL_Renderer* Engine::renderer = nullptr;
+Manager manager; //sukuriamas entity manager
+auto& player(manager.addEntity()); //sukuriamas player
 
-void CApp::OnInit(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
+
+void Engine::OnInit(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
     int flags = 0; 
     if (fullscreen)
@@ -36,9 +39,16 @@ void CApp::OnInit(const char* title, int xpos, int ypos, int width, int height, 
         
         isRunning = true;
 
-        player = new GameObject("Assets/Player/PlayerWalk/Walk-00.png", 0, 0); //sukuriamas zaidejas
-        enemy = new GameObject("Assets/Enemy/tile000.png", 50, 50); //sukuriamas zaidejas
         map = new Map(); //sukuriamas map
+        if (map)
+            std::cout << "Map was created ;3"<<std::endl;
+
+
+        //ECS implementacija
+        
+        player.addComponent<PositionComponent>(100, 500);
+        player.addComponent<SpriteComponent>("Assets/Player/PlayerWalk/Walk-00.png");
+
     }
     else { 
        std::cout << "Something went wrong :(" << std::endl;
@@ -46,7 +56,7 @@ void CApp::OnInit(const char* title, int xpos, int ypos, int width, int height, 
     }
 }
 
-void CApp::OnEvent()
+void Engine::OnEvent()
 {
     SDL_Event event; //Sukuriamas kintamasis kuris laiko informacija apie events. Jis gali laikyti daug informacijos.
     SDL_PollEvent(&event); //isrenka paduoto event informacija
@@ -60,20 +70,19 @@ void CApp::OnEvent()
     }       
 }
 
-void CApp::OnUpdate(){
-    player->OnUpdate(80, 108);
-    enemy->OnUpdate(102, 102);
+void Engine::OnUpdate(){
+    manager.refresh();
+    manager.update();
 }
 
-void CApp::OnRender(){
+void Engine::OnRender(){
     SDL_RenderClear(renderer); //Išvalomas renderis
     map->DrawMap();
-    player->OnRender();
-    enemy->OnRender();
+    manager.draw();
     SDL_RenderPresent(renderer); //Atliktas renderinimas updatinamas
 }
 
-void CApp::OnCleanup(){
+void Engine::OnCleanup(){
     
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
@@ -81,7 +90,7 @@ void CApp::OnCleanup(){
     std::cout << "Game cleaned <_<" << std::endl;
 }
 
-bool CApp::Running()
+bool Engine::Running()
 {
     return isRunning;
 }

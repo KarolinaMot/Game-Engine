@@ -1,6 +1,6 @@
-﻿#include "CApp.h"
+﻿#include "Engine.h"
 
-CApp* game = nullptr;
+Engine* game = nullptr;
 
 int main(int argc, const char* argv[]) {
 
@@ -9,7 +9,7 @@ int main(int argc, const char* argv[]) {
 	Uint32 frame_start; //Kiek laiko žaidimas veikia
 	int frame_time;
 
-	game = new CApp();
+	game = new Engine();
 	game->OnInit("Hounted House", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false);
 
 	while (game->Running()) {

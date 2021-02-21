@@ -2,10 +2,10 @@
 #define SDL_MAIN_HANDLED
 #include <SDL.h>
 
-class CApp{
+class Engine{
     public:
-        CApp() {}; //konstruktorius
-        ~CApp() {}; //dekonstruktorius
+        Engine() {}; //konstruktorius
+        ~Engine() {}; //dekonstruktorius
         void OnInit(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
         void OnEvent();
         void OnUpdate();
