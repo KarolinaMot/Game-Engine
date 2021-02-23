@@ -1,16 +1,18 @@
 ﻿#include "Engine.h"
 #include "TextureManager.h"
 #include "Map.h"
-#include "ECS.h"
-#include "PositionComponent.h"
-#include "SpriteComponent.h"
 #include <iostream>
+
 
 int count = 0;
 Map* map;
 SDL_Renderer* Engine::renderer = nullptr;
-Manager manager; //sukuriamas entity manager
-auto& player(manager.addEntity()); //sukuriamas player
+
+const unsigned int FPS = 60; //pastovus frame rate
+const int frame_delay = 1000 / FPS; //Apskaičiuoja kiek turi užtrukti vienas frame 
+Uint32 frame_start; //Kiek laiko žaidimas veikia
+int frame_time;
+
 
 
 void Engine::OnInit(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
@@ -43,12 +45,6 @@ void Engine::OnInit(const char* title, int xpos, int ypos, int width, int height
         if (map)
             std::cout << "Map was created ;3"<<std::endl;
 
-
-        //ECS implementacija
-        
-        player.addComponent<PositionComponent>(100, 500);
-        player.addComponent<SpriteComponent>("Assets/Player/PlayerWalk/Walk-00.png");
-
     }
     else { 
        std::cout << "Something went wrong :(" << std::endl;
@@ -71,14 +67,13 @@ void Engine::OnEvent()
 }
 
 void Engine::OnUpdate(){
-    manager.refresh();
-    manager.update();
+    float delta_time = (SDL_GetTicks() - ticks_last_frame) / 1000.0f; //Delta time is the difference in ticks from last frame converted to seconds
+    ticks_last_frame = SDL_GetTicks(); //Sets the ticks from the current frame to be used in the next pass
 }
 
 void Engine::OnRender(){
     SDL_RenderClear(renderer); //Išvalomas renderis
     map->DrawMap();
-    manager.draw();
     SDL_RenderPresent(renderer); //Atliktas renderinimas updatinamas
 }
 

@@ -28,6 +28,9 @@
     <Filter Include="src\Map">
       <UniqueIdentifier>{75e70fc9-161a-46b2-9cfd-416d95589da5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Vector2D">
+      <UniqueIdentifier>{db43a0a6-eecb-4bb3-9d32-0652763042df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -44,9 +47,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ECS.h">
-      <Filter>src\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>src\Engine</Filter>
     </ClInclude>
@@ -55,12 +55,6 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>src\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionComponent.h">
-      <Filter>src\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
-      <Filter>src\ECS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
