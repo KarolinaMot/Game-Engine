@@ -3,6 +3,8 @@
 #include "Map.h"
 #include <iostream>
 
+EntityManager manager;
+SDL_Renderer* Engine::renderer;
 
 int count = 0;
 Map* map;
@@ -10,9 +12,6 @@ SDL_Renderer* Engine::renderer = nullptr;
 
 const unsigned int FPS = 60; //pastovus frame rate
 const int frame_delay = 1000 / FPS; //Apskaičiuoja kiek turi užtrukti vienas frame 
-Uint32 frame_start; //Kiek laiko žaidimas veikia
-int frame_time;
-
 
 
 void Engine::OnInit(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
@@ -35,7 +34,7 @@ void Engine::OnInit(const char* title, int xpos, int ypos, int width, int height
 
         renderer = SDL_CreateRenderer(window, -1, 0); //Sukuriamas renderis, kuriam paduodamas langas, kuriame renderis kurs 
         if (renderer) {//tikriname ar renderis susikure
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); //jei renderis susikure nustatoma jo piesimo spalva 
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); //jei renderis susikure nustatomas background 
             std::cout << "Renderer created! OwO" << std::endl;
         }
         
@@ -67,14 +66,20 @@ void Engine::OnEvent()
 }
 
 void Engine::OnUpdate(){
+    int time_to_wait = frame_delay - (SDL_GetTicks() - ticks_last_frame);
+
+    if (time_to_wait > 0 && time_to_wait <= frame_delay) { //Wait until 16 ms has ellapsed since the last frame   
+        SDL_Delay(time_to_wait);  }
+
     float delta_time = (SDL_GetTicks() - ticks_last_frame) / 1000.0f; //Delta time is the difference in ticks from last frame converted to seconds
+    delta_time = (delta_time > 0.05f) ? 0.05f : delta_time; //Giving delta time a max value so debugging the program won't mess everything up
     ticks_last_frame = SDL_GetTicks(); //Sets the ticks from the current frame to be used in the next pass
 }
 
 void Engine::OnRender(){
     SDL_RenderClear(renderer); //Išvalomas renderis
     map->DrawMap();
-    SDL_RenderPresent(renderer); //Atliktas renderinimas updatinamas
+    SDL_RenderPresent(renderer); //Atliktas renderinimas updatinamas, swaps front and back buffers
 }
 
 void Engine::OnCleanup(){
@@ -88,6 +93,10 @@ void Engine::OnCleanup(){
 bool Engine::Running()
 {
     return isRunning;
+}
+
+void Engine::LoadLevel(int levelNumber)
+{
 }
 
 

@@ -2,6 +2,9 @@
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
+#include "Entity.h"
+#include "Component.h"
+#include "EntityManager.h"
 
 class Engine{
     public:
@@ -15,6 +18,7 @@ class Engine{
         void OnCleanup();
         bool Running();
         static SDL_Renderer* renderer;
+        void LoadLevel(int levelNumber);
 
     private:        
         SDL_Window* window{};
