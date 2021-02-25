@@ -1,36 +1,43 @@
-#pragma once
 #include "EntityManager.h"
-#include "Engine.h"
+#include "glm/glm.hpp"
 #include <SDL2/SDL.h>
-#include <glm/glm.hpp>
+#include "Engine.h"
 
+class TransformComponent : public Component {
+public:
+    glm::vec2 position;
+    glm::vec2 velocity;
+    int width;
+    int height;
+    int scale;
 
-class TransformComponent {
-	public:
-		glm::vec2 position;
-		glm::vec2 velocity;
-		int width;
-		int height;
-		int scale;
+    TransformComponent(int posX, int posY, int velX, int velY, int w, int h, int s) {
+        position = glm::vec2(posX, posY);
+        velocity = glm::vec2(velX, velY);
+        width = w;
+        height = h;
+        scale = s;
+    }
 
-		TransformComponent(int posX, int posY, int velX, int velY, int w, int h, int s) {
-			position = glm::vec2(posX, posY);
-			velocity = glm::vec2(velX, velY);
-			width = w;
-			height = h;
-			scale = s;
-		}
+    void Initialize() override {
 
-		void initialize() override {}
+    }
 
-		void update(float delta_time) override {
-			position.x += velocity.x * delta_time;
-			position.y += velocity.y * delta_time;
-		}
+    void Update(float deltaTime) override {
+        position.x += velocity.x * deltaTime;
+        position.y += velocity.y * deltaTime;
+    }
 
-		void render() override {
-			SDL_Rect transform_rectangle = { (int)position.x, (int)position.y, width, height };
-			SDL_SetRenderDrawColor(Engine::renderer, 0, 0, 0, 255);
-			SDL_RenderFillRect(Engine::renderer, &transform_rectangle);
-		}
+    void Render() override {
+        SDL_Rect transformRectangle = {
+            (int)position.x,
+            (int)position.y,
+            width,
+            height
+        };
+        SDL_SetRenderDrawColor(Engine::renderer, 255, 255, 255, 255);
+        SDL_RenderFillRect(Engine::renderer, &transformRectangle);
+    }
 };
+
+

@@ -1,28 +1,29 @@
 #include "Entity.h"
 
-Entity::Entity(EntityManager& manager):manager(manager){
-	this->is_active = true;
+Entity::Entity(EntityManager& manager) : manager(manager) {
+    this->isActive = true;
 }
 
-Entity::Entity(EntityManager& manager, std::string name):manager(manager), name(name){
-	this->is_active = true;
+Entity::Entity(EntityManager& manager, std::string name) : manager(manager), name(name) {
+    this->isActive = true;
 }
 
-void Entity::update(float deltaTime){
-	for (auto* component : components) {
-		component->update(deltaTime);
-	}
+void Entity::Update(float deltaTime) {
+    for (auto& component : components) {
+        component->Update(deltaTime);
+    }
 }
 
-void Entity::render(){
-	for (auto& component : components)
-		component->render();
+void Entity::Render() {
+    for (auto& component : components) {
+        component->Render();
+    }
 }
 
-void Entity::destroy(){
-	this->is_active = false;
+void Entity::Destroy() {
+    this->isActive = false;
 }
 
-bool Entity::isActive() const{
-	return this->is_active;
+bool Entity::IsActive() const {
+    return this->isActive;
 }

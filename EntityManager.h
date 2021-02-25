@@ -1,18 +1,21 @@
-#pragma once
-#include "Entity.h"
+#ifndef ENTITYMANAGER_H
+#define ENTITYMANAGER_H
 #include "Component.h"
+#include <vector>
+#include <string>
 
-class EntityManager
-{
+
+class EntityManager{
 private:
-	std::vector<Entity> entities;
+    std::vector<Entity*> entities;
 public:
-	void clearData();
-	void update(float deltaTime);
-	void render();
-	bool hasNoEntities();
-	Entity& addEntity(std::string entityName);
-	std::vector<Entity*> getEntities() const;
-	unsigned int getEntityCount();
+    void ClearData();
+    void Update(float deltaTime);
+    void Render();
+    bool HasNoEntities();
+    Entity& AddEntity(std::string entityName);
+    std::vector<Entity*> GetEntities() const;
+    unsigned int GetEntityCount();
 };
 
+#endif

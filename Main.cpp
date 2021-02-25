@@ -1,20 +1,19 @@
-﻿#include "Engine.h"
+﻿#include <iostream>
+#include "./Constants.h"
+#include "Engine.h"
 
-Engine* game = nullptr;
+int main(int argc, char* args[]) {
+    Engine game;
 
-int main(int argc, const char* argv[]) {
+    game.Initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	
-	game = new Engine();
-	game->OnInit("Hounted House", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false);
+    while (game.IsRunning()) {
+        game.ProcessInput();
+        game.Update();
+        game.Render();
+    }
 
-	while (game->Running()) {
+    game.Destroy();
 
-		game->OnEvent(); //pagauna event
-		game->OnUpdate(); //ivykdo event
-		game->OnRender(); //renderina event
-	}
-
-	game->OnCleanup();
-	return 0;
+    return 0;
 }

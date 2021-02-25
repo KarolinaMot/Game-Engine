@@ -1,102 +1,112 @@
-﻿#include "Engine.h"
-#include "TextureManager.h"
-#include "Map.h"
-#include <iostream>
+﻿#include <iostream>
+#include "./Constants.h"
+#include "Engine.h"
+#include "TransformComponent.h"
+#include "glm/glm.hpp"
 
 EntityManager manager;
 SDL_Renderer* Engine::renderer;
 
-int count = 0;
-Map* map;
-SDL_Renderer* Engine::renderer = nullptr;
-
-const unsigned int FPS = 60; //pastovus frame rate
-const int frame_delay = 1000 / FPS; //Apskaičiuoja kiek turi užtrukti vienas frame 
-
-
-void Engine::OnInit(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
-{
-    int flags = 0; 
-    if (fullscreen)
-    {
-        flags = SDL_WINDOW_FULLSCREEN;
-    }
-    if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {//Iniciuojamas SLD, tam kad galetume naudoti jo funkcijas
-
-        std::cout << "SDL2 library initialized :)" << std::endl;
-
-        window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);//sukuria langa, kuriame vyks zaidimas
-
-        if (window) {//tikriname ar langas susikure
-
-            std::cout << "Window created! UwU" << std::endl;
-        }
-
-        renderer = SDL_CreateRenderer(window, -1, 0); //Sukuriamas renderis, kuriam paduodamas langas, kuriame renderis kurs 
-        if (renderer) {//tikriname ar renderis susikure
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); //jei renderis susikure nustatomas background 
-            std::cout << "Renderer created! OwO" << std::endl;
-        }
-        
-        isRunning = true;
-
-        map = new Map(); //sukuriamas map
-        if (map)
-            std::cout << "Map was created ;3"<<std::endl;
-
-    }
-    else { 
-       std::cout << "Something went wrong :(" << std::endl;
-       isRunning = false; 
-    }
+Engine::Engine() {
+    this->isRunning = false;
 }
 
-void Engine::OnEvent()
-{
-    SDL_Event event; //Sukuriamas kintamasis kuris laiko informacija apie events. Jis gali laikyti daug informacijos.
-    SDL_PollEvent(&event); //isrenka paduoto event informacija
-    switch (event.type) {//tikrinama kokio tipo event buvo padarytas
-        case SDL_QUIT:
+Engine::~Engine() {
+}
+
+bool Engine::IsRunning() const {
+    return this->isRunning;
+}
+
+void Engine::Initialize(int width, int height) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+        std::cerr << "Error initializing SDL." << std::endl;
+        return;
+    }
+    window = SDL_CreateWindow(
+        NULL,
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        width,
+        height,
+        SDL_WINDOW_BORDERLESS
+    );
+    if (!window) {
+        std::cerr << "Error creating SDL window." << std::endl;
+        return;
+    }
+    renderer = SDL_CreateRenderer(window, -1, 0);
+    if (!renderer) {
+        std::cerr << "Error creating SDL renderer." << std::endl;
+        return;
+    }
+
+    LoadLevel(0);
+
+    isRunning = true;
+    return;
+}
+
+void Engine::LoadLevel(int levelNumber) {
+    Entity& newEntity(manager.AddEntity("projectile"));
+    newEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
+}
+
+void Engine::ProcessInput() {
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    switch (event.type) {
+    case SDL_QUIT: {
+        isRunning = false;
+        break;
+    }
+    case SDL_KEYDOWN: {
+        if (event.key.keysym.sym == SDLK_ESCAPE) {
             isRunning = false;
-            std::cout << "Quitting the game... bye! :((" << std::endl;
-            break;
-        default:
-            break;
-    }       
+        }
+    }
+    default: {
+        break;
+    }
+    }
 }
 
-void Engine::OnUpdate(){
-    int time_to_wait = frame_delay - (SDL_GetTicks() - ticks_last_frame);
+void Engine::Update() {
+    // Waste some time / sleep until we reach the target frame time in milliseconds
+    int timeToWait = FRAME_TARGET_TIME - (SDL_GetTicks() - ticksLastFrame);
 
-    if (time_to_wait > 0 && time_to_wait <= frame_delay) { //Wait until 16 ms has ellapsed since the last frame   
-        SDL_Delay(time_to_wait);  }
+    // Only sleep if we are too fast
+    if (timeToWait > 0 && timeToWait <= FRAME_TARGET_TIME) {
+        SDL_Delay(timeToWait);
+    }
 
-    float delta_time = (SDL_GetTicks() - ticks_last_frame) / 1000.0f; //Delta time is the difference in ticks from last frame converted to seconds
-    delta_time = (delta_time > 0.05f) ? 0.05f : delta_time; //Giving delta time a max value so debugging the program won't mess everything up
-    ticks_last_frame = SDL_GetTicks(); //Sets the ticks from the current frame to be used in the next pass
+    // Delta time is the difference in ticks from last frame converted to secomds
+    float deltaTime = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;
+
+    // Clamp deltaTime to a maximum value
+    deltaTime = (deltaTime > 0.05f) ? 0.05f : deltaTime;
+
+    // Sets the new ticks for the current frame to be used in the next pass
+    ticksLastFrame = SDL_GetTicks();
+
+    manager.Update(deltaTime);
 }
 
-void Engine::OnRender(){
-    SDL_RenderClear(renderer); //Išvalomas renderis
-    map->DrawMap();
-    SDL_RenderPresent(renderer); //Atliktas renderinimas updatinamas, swaps front and back buffers
+void Engine::Render() {
+    SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
+    SDL_RenderClear(renderer);
+
+    if (manager.HasNoEntities()) {
+        return;
+    }
+
+    manager.Render();
+
+    SDL_RenderPresent(renderer);
 }
 
-void Engine::OnCleanup(){
-    
-    SDL_DestroyWindow(window);
+void Engine::Destroy() {
     SDL_DestroyRenderer(renderer);
-    SDL_Quit(); //Self explanatory
-    std::cout << "Game cleaned <_<" << std::endl;
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
-
-bool Engine::Running()
-{
-    return isRunning;
-}
-
-void Engine::LoadLevel(int levelNumber)
-{
-}
-
-
