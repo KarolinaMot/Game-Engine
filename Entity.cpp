@@ -4,7 +4,7 @@ Entity::Entity(EntityManager& manager) : manager(manager) {
     this->isActive = true;
 }
 
-Entity::Entity(EntityManager& manager, std::string name) : manager(manager), name(name) {
+Entity::Entity(EntityManager& manager, std::string name) : manager(manager), name(name) { //Activates entity
     this->isActive = true;
 }
 

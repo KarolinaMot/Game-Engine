@@ -14,12 +14,12 @@ public:
     int scale;
    
 
-    TransformComponent(int posX, int posY, int velX, int velY, int w, int h, int s) {
-        position = glm::vec2(posX, posY);
-        velocity = glm::vec2(velX, velY);
-        width = w;
-        height = h;
-        scale = s;
+    TransformComponent(int posX, int posY, int velX, int velY, int w, int h, int s) { //Transform component's constructor, which sets the entity's starting position, velocity, height, width and scale
+        position = glm::vec2(posX, posY); //sets the entity's starting position
+        velocity = glm::vec2(velX, velY); //sets the entity's velocity
+        width = w; //entity's width
+        height = h; //entity's height
+        scale = s; //entity's scale
     }
 
     void Initialize() override {

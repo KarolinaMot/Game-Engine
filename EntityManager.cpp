@@ -31,10 +31,10 @@ void EntityManager::ListAllEntities() const{
     }
 }
 
-Entity& EntityManager::AddEntity(std::string entityName) {
-    Entity* entity = new Entity(*this, entityName);
-    entities.emplace_back(entity);
-    return *entity;
+Entity& EntityManager::AddEntity(std::string entityName) {//Creates entity and adds it to the entity manager
+    Entity* entity = new Entity(*this, entityName); //creates entity
+    entities.emplace_back(entity); //adds created entity to the entities vector
+    return *entity; //returns entity
 }
 
 std::vector<Entity*> EntityManager::GetEntities() const {

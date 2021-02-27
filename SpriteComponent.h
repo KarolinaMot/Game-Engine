@@ -22,19 +22,19 @@ class SpriteComponent : public Component {
 
 	public:
 		SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
-		SpriteComponent(std::string assetTextureId, bool isFixed) {
+		SpriteComponent(std::string assetTextureId, bool isFixed) { //if animation parameters aren't  passed, then entity isn't animated
 			this->isAnimated = false;
 			this->isFixed = isFixed;
 			SetTexture(assetTextureId);
 		}
 
-		SpriteComponent(std::string id, int numFrames, int animationSpeed, bool hasDirection, bool isFixed){
+		SpriteComponent(std::string id, int numFrames, int animationSpeed, bool hasDirection, bool isFixed){ //Sprite component constructor which sets that the component is animated, its frame number, animation speed, fixation and directions
 			isAnimated = true;
 			this->numFrames = numFrames;
 			this->animationSpeed = animationSpeed;
 			this->isFixed = isFixed;
 
-			if(hasDirection){
+			if(hasDirection){ //if entity has direction, flips the animation for diferent directions
 				Animation downAnimation = Animation(0, numFrames, animationSpeed);//animation for flipping down
 				Animation rightAnimation = Animation(1, numFrames, animationSpeed);//animation for flipping right
 				Animation leftAnimation = Animation(2, numFrames, animationSpeed);//animation for flipping left
@@ -48,7 +48,7 @@ class SpriteComponent : public Component {
 				this->animationIndex = 0;
 				this->currentAnimationName = "RightAnimation";
 			}
-			else {
+			else { //if entity doesnt have directions, sets a single animation 
 				Animation singleAnimation = Animation(0, numFrames, animationSpeed);
 				animations.emplace("SingleAnimation", singleAnimation);
 				this->animationIndex = 0;
@@ -59,14 +59,14 @@ class SpriteComponent : public Component {
 
 		}
 
-		void Play(std::string animationName) {
-			numFrames = animations[animationName].numFrames;
-			animationIndex = animations[animationName].index;
-			animationSpeed = animations[animationName].animationSpeed;
-			currentAnimationName = animationName;
+		void Play(std::string animationName) { //plays the animation 
+			numFrames = animations[animationName].numFrames; //sets the animation's number of frames
+			animationIndex = animations[animationName].index; //sets the animation index
+			animationSpeed = animations[animationName].animationSpeed; //sets the animation speed
+			currentAnimationName = animationName; //sets animation name
 		}
 
-		void SetTexture(std::string assetTextureId) {
+		void SetTexture(std::string assetTextureId) { //sets entity's sprite image
 			texture = Engine::assetManager->GetTexture(assetTextureId);
 		}
 
@@ -80,7 +80,7 @@ class SpriteComponent : public Component {
 
 		void Update(float deltaTime) override {
 			if (isAnimated) {
-				sourceRectangle.x = sourceRectangle.w * static_cast<int>((SDL_GetTicks() / animationSpeed) % numFrames);
+				sourceRectangle.x = sourceRectangle.w * static_cast<int>((SDL_GetTicks() / animationSpeed) % numFrames); //slides source rectangle to the right with every frame to change picture
 			}
 			sourceRectangle.y = animationIndex * transform->height;
 

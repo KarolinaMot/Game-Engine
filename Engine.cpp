@@ -11,7 +11,7 @@ EntityManager manager;
 AssetManager* Engine::assetManager = new AssetManager(&manager);
 SDL_Renderer* Engine::renderer;
 
-Engine::Engine() {
+Engine::Engine() { //engine constructor
     this->isRunning = false;
 }
 
@@ -23,11 +23,11 @@ bool Engine::IsRunning() const {
 }
 
 void Engine::Initialize(int width, int height) {
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) { //if sld libraries initialized
         std::cerr << "Error initializing SDL." << std::endl;
         return;
     }
-    window = SDL_CreateWindow(
+    window = SDL_CreateWindow( //creates window
         NULL,
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
@@ -35,37 +35,29 @@ void Engine::Initialize(int width, int height) {
         height,
         SDL_WINDOW_BORDERLESS
     );
-    if (!window) {
+    if (!window) { //checks if window was created succesfully
         std::cerr << "Error creating SDL window." << std::endl;
         return;
     }
-    renderer = SDL_CreateRenderer(window, -1, 0);
-    if (!renderer) {
+    renderer = SDL_CreateRenderer(window, -1, 0); //creates a renderer
+    if (!renderer) { //checks if renderer was created
         std::cerr << "Error creating SDL renderer." << std::endl;
         return;
     }
 
-    LoadLevel(0);
+    LoadLevel(0); //loads a level
 
     isRunning = true;
     return;
 }
 
-void Engine::LoadLevel(int levelNumber) {
-    assetManager->AddTexture("player_image", std::string("Assets/Player/PlayerRun/tile000.png").c_str());
-    assetManager->AddTexture("player2_image", std::string("Assets/Player/PlayerRun/tile001.png").c_str());
+void Engine::LoadLevel(int levelNumber) { //function used to run level
+    assetManager->AddTexture("player_image", std::string("Assets/Player/Run.png").c_str()); //Adds a texture to the asset manager
+    Entity& player(manager.AddEntity("Player")); //Creates a player entity and adds it to the entity manager
+    player.AddComponent<TransformComponent>(0, 0, 60, 0, 49, 43, 2); //adds transform ccomponent to player
+    player.AddComponent<SpriteComponent>("player_image", 8, 80, false, false ); //adds sprite component and animation to player
 
-    Entity& player(manager.AddEntity("Player")); //Starts including entities and also components
-    Entity& player2(manager.AddEntity("Player2"));
-
-    player.AddComponent<TransformComponent>(0, 0, 20, 20, 43, 43, 1);
-    player2.AddComponent<TransformComponent>(80, 0, 5, 50, 43, 43, 1);
-
-    player.AddComponent<SpriteComponent>("player_image", 8, 90, true, false );
-    player2.AddComponent<SpriteComponent>("player2_image" );
-
-    manager.ListAllEntities();
-    
+    manager.ListAllEntities(); 
 
 }
 

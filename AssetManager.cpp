@@ -11,7 +11,7 @@ void AssetManager::ClearData(){
 	textures.clear();
 }
 
-void AssetManager::AddTexture(std::string textureId, const char* filePath){
+void AssetManager::AddTexture(std::string textureId, const char* filePath){ //
 	textures.emplace(textureId, TextureManager::LoadTexture(filePath));
 }
 
