@@ -24,6 +24,13 @@ void EntityManager::Render() {
     }
 }
 
+void EntityManager::ListAllEntities() const{
+    for (auto& entity : entities) {
+        std::cout << "Entity name: "<<entity->name << std::endl;
+        entity->ListAllComponents();
+    }
+}
+
 Entity& EntityManager::AddEntity(std::string entityName) {
     Entity* entity = new Entity(*this, entityName);
     entities.emplace_back(entity);

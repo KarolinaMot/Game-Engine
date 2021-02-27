@@ -24,6 +24,13 @@ void Entity::Destroy() {
     this->isActive = false;
 }
 
+void Entity::ListAllComponents(){
+    for (auto& mapElement : componentTypeMap)
+    {
+        std::cout << "     Component: " << mapElement.first->name() << std::endl;
+    }
+}
+
 bool Entity::IsActive() const {
     return this->isActive;
 }

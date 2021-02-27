@@ -1,5 +1,4 @@
 #include "TextureManager.h"
-#include "Engine.h"
 
 SDL_Texture* TextureManager::LoadTexture(const char* filename) //funkcija, kuriai padavius texture ir renderer, atvaizduoja nuotrauka
 {
@@ -10,7 +9,7 @@ SDL_Texture* TextureManager::LoadTexture(const char* filename) //funkcija, kuria
 	return tex;
 }
 
-void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest)
+void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip)
 {
-	SDL_RenderCopy(Engine::renderer, tex, &src, &dest);
+	SDL_RenderCopyEx(Engine::renderer, tex, &src, &dest, 0.0, NULL, flip); 
 }

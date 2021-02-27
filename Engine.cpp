@@ -1,10 +1,14 @@
 ﻿#include <iostream>
 #include "./Constants.h"
 #include "Engine.h"
+#include "AssetManager.h"
+#include "EntityManager.h"
 #include "TransformComponent.h"
+#include "SpriteComponent.h"
 #include "glm/glm.hpp"
 
 EntityManager manager;
+AssetManager* Engine::assetManager = new AssetManager(&manager);
 SDL_Renderer* Engine::renderer;
 
 Engine::Engine() {
@@ -48,8 +52,21 @@ void Engine::Initialize(int width, int height) {
 }
 
 void Engine::LoadLevel(int levelNumber) {
-    Entity& newEntity(manager.AddEntity("projectile"));
-    newEntity.AddComponent<TransformComponent>(0, 0, 20, 20, 32, 32, 1);
+    assetManager->AddTexture("player_image", std::string("Assets/Player/PlayerRun/tile000.png").c_str());
+    assetManager->AddTexture("player2_image", std::string("Assets/Player/PlayerRun/tile001.png").c_str());
+
+    Entity& player(manager.AddEntity("Player")); //Starts including entities and also components
+    Entity& player2(manager.AddEntity("Player2"));
+
+    player.AddComponent<TransformComponent>(0, 0, 20, 20, 43, 43, 1);
+    player2.AddComponent<TransformComponent>(80, 0, 5, 50, 43, 43, 1);
+
+    player.AddComponent<SpriteComponent>("player_image", 8, 90, true, false );
+    player2.AddComponent<SpriteComponent>("player2_image" );
+
+    manager.ListAllEntities();
+    
+
 }
 
 void Engine::ProcessInput() {
