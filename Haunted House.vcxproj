@@ -172,6 +172,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="KeyboardControlComponent.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TextureManager.h" />

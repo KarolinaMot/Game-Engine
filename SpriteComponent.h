@@ -22,6 +22,8 @@ class SpriteComponent : public Component {
 
 	public:
 		SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
+		bool hasDirection;
+
 		SpriteComponent(std::string assetTextureId, bool isFixed) { //if animation parameters aren't  passed, then entity isn't animated
 			this->isAnimated = false;
 			this->isFixed = isFixed;
@@ -33,17 +35,14 @@ class SpriteComponent : public Component {
 			this->numFrames = numFrames;
 			this->animationSpeed = animationSpeed;
 			this->isFixed = isFixed;
+			this->hasDirection = hasDirection;
 
 			if(hasDirection){ //if entity has direction, flips the animation for diferent directions
-				Animation downAnimation = Animation(0, numFrames, animationSpeed);//animation for flipping down
-				Animation rightAnimation = Animation(1, numFrames, animationSpeed);//animation for flipping right
-				Animation leftAnimation = Animation(2, numFrames, animationSpeed);//animation for flipping left
-				Animation upAnimation = Animation(3, numFrames, animationSpeed);//animation for flipping up
+				Animation rightAnimation = Animation(0, numFrames, animationSpeed);//animation for flipping right
+				Animation leftAnimation = Animation(1, numFrames, animationSpeed);//animation for flipping left
 
-				animations.emplace("DownAnimation", downAnimation);//adds the animations to the animation map
 				animations.emplace("RightAnimation", rightAnimation);//adds the animations to the animation map
 				animations.emplace("LeftAnimation", leftAnimation);//adds the animations to the animation map
-				animations.emplace("UpAnimation", upAnimation);//adds the animations to the animation map
 
 				this->animationIndex = 0;
 				this->currentAnimationName = "RightAnimation";

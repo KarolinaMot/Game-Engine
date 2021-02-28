@@ -16,8 +16,12 @@
     <ClCompile Include="Main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="AssetManager.cpp" />
-    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animation.cpp">
+      <Filter>src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>src\AssetManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -38,11 +42,18 @@
     <ClInclude Include="TransformComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="SpriteComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h" />
+    <ClInclude Include="KeyboardControlComponent.h">
+      <Filter>src\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>src\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>src\AssetManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -62,6 +73,12 @@
     </Filter>
     <Filter Include="src\Components">
       <UniqueIdentifier>{7d02ff30-40f4-4d6f-b6e6-0bf899623eba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Animation">
+      <UniqueIdentifier>{234a2a65-e92c-4882-a6cf-2a81a9e62b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\AssetManager">
+      <UniqueIdentifier>{326d3947-e08a-48ca-878d-873a85e9a23d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

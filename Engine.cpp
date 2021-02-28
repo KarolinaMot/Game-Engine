@@ -5,11 +5,13 @@
 #include "EntityManager.h"
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
+#include "KeyboardControlComponent.h"
 #include "glm/glm.hpp"
 
 EntityManager manager;
 AssetManager* Engine::assetManager = new AssetManager(&manager);
 SDL_Renderer* Engine::renderer;
+SDL_Event Engine::event;
 
 Engine::Engine() { //engine constructor
     this->isRunning = false;
@@ -53,16 +55,18 @@ void Engine::Initialize(int width, int height) {
 
 void Engine::LoadLevel(int levelNumber) { //function used to run level
     assetManager->AddTexture("player_image", std::string("Assets/Player/Run.png").c_str()); //Adds a texture to the asset manager
+
     Entity& player(manager.AddEntity("Player")); //Creates a player entity and adds it to the entity manager
-    player.AddComponent<TransformComponent>(0, 0, 60, 0, 49, 43, 2); //adds transform ccomponent to player
+    player.AddComponent<TransformComponent>(0, 0, 0, 0, 49, 43, 2); //adds transform ccomponent to player
     player.AddComponent<SpriteComponent>("player_image", 8, 80, false, false ); //adds sprite component and animation to player
+    player.AddComponent<KeyboardControlComponent>(40, false, false, true, true);
 
     manager.ListAllEntities(); 
 
 }
 
 void Engine::ProcessInput() {
-    SDL_Event event;
+    
     SDL_PollEvent(&event);
     switch (event.type) {
     case SDL_QUIT: {
