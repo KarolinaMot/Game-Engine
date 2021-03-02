@@ -22,6 +22,12 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>src\AssetManager</Filter>
     </ClCompile>
+    <ClCompile Include="MapParser.cpp">
+      <Filter>src\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TileLayer.cpp">
+      <Filter>src\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -53,6 +59,15 @@
     </ClInclude>
     <ClInclude Include="AssetManager.h">
       <Filter>src\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MapParser.h">
+      <Filter>src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMap.h">
+      <Filter>src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TileLayer.h">
+      <Filter>src\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

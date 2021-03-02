@@ -59,7 +59,7 @@ void Engine::LoadLevel(int levelNumber) { //function used to run level
     Entity& player(manager.AddEntity("Player")); //Creates a player entity and adds it to the entity manager
     player.AddComponent<TransformComponent>(0, 0, 0, 0, 49, 43, 2); //adds transform ccomponent to player
     player.AddComponent<SpriteComponent>("player_image", 8, 80, false, false ); //adds sprite component and animation to player
-    player.AddComponent<KeyboardControlComponent>(40, false, false, true, true);
+    player.AddComponent<KeyboardControlComponent>(80, false, false, true, true);
 
     manager.ListAllEntities(); 
 
