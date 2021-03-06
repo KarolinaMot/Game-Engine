@@ -1,32 +1,27 @@
-#pragma once
+#ifndef GAMEMAP_H
+#define GAMEMAP_H
+
 #include <vector>
+#include "Layer.h"
 
-class Layer
-{
+class GameMap {
+
 public:
-	virtual void Render() = 0;
-	virtual void Update() = 0;
+    void Render() {
+        for (unsigned int i = 0; i < m_MapLayers.size(); i++)
+            m_MapLayers[i]->Render();
+    }
+
+    void Update() {
+        for (unsigned int i = 0; i < m_MapLayers.size(); i++)
+            m_MapLayers[i]->Update();
+    }
+
+    std::vector<Layer*> GetMapLayers() { return m_MapLayers; }
+
+private:
+    friend class MapParser;
+    std::vector<Layer*> m_MapLayers;
 };
 
-
-class GameMap
-{
-	public:
-		void Render() {
-			for (unsigned int i = 0; i < mapLayers.size(); i++){
-				mapLayers[i]->Render();
-			}
-		}
-		void Update() {
-			for (unsigned int i = 0; i < mapLayers.size(); i++){
-				mapLayers[i]->Update();
-			}
-		}
-		std::vector<Layer*>GetMapLayers() {
-			return mapLayers;
-		}
-
-	private:
-		std::vector<Layer*> mapLayers;
-};
-
+#endif // GAMEMAP_H

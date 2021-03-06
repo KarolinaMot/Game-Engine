@@ -176,6 +176,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="KeyboardControlComponent.h" />
+    <ClInclude Include="Layer.h" />
     <ClInclude Include="MapParser.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="TileLayer.h" />
