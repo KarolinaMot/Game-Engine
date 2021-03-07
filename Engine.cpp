@@ -57,10 +57,10 @@ void Engine::Initialize(int width, int height) {
 
 void Engine::LoadLevel(int levelNumber) { //function used to run level
     assetManager->AddTexture("player_image", std::string("Assets/Player/Run.png").c_str()); //Adds a texture to the asset manager
-    assetManager->AddTexture("jungle-tiletexture", std::string("Assets/Map/Tiles/jungle.png").c_str());
+    assetManager->AddTexture("jungle-tiletexture", std::string("Assets/Maps/Tiles/jungle.png").c_str());
 
-    map = new Map("jungle-tiletexture", 1, 32);
-    map->LoadMap("Assets/Map/jungle.map", 25, 20);
+    map = new Map("jungle-tiletexture", 2, 32);
+    map->LoadMap("Assets/Maps/jungle.map", 25, 20);
 
     Entity& player(manager.AddEntity("Player")); //Creates a player entity and adds it to the entity manager
     player.AddComponent<TransformComponent>(0, 0, 0, 0, 49, 43, 2); //adds transform ccomponent to player
@@ -75,19 +75,19 @@ void Engine::ProcessInput() {
     
     SDL_PollEvent(&event);
     switch (event.type) {
-    case SDL_QUIT: {
-        isRunning = false;
-        break;
-    }
-    case SDL_KEYDOWN: {
-        if (event.key.keysym.sym == SDLK_ESCAPE) {
+        case SDL_QUIT: {
             isRunning = false;
+            break;
         }
-        break;
-    }
-    default: {
-        break;
-    }
+        case SDL_KEYDOWN: {
+            if (event.key.keysym.sym == SDLK_ESCAPE) {
+                isRunning = false;
+            }
+            break;
+        }
+        default: {
+            break;
+        }
     }
 }
 
