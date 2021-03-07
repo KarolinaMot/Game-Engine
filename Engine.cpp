@@ -1,7 +1,8 @@
 ﻿#include <iostream>
-#include "./Constants.h"
+#include "Constants.h"
 #include "Engine.h"
 #include "AssetManager.h"
+#include "Map.h"
 #include "EntityManager.h"
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
@@ -12,6 +13,7 @@ EntityManager manager;
 AssetManager* Engine::assetManager = new AssetManager(&manager);
 SDL_Renderer* Engine::renderer;
 SDL_Event Engine::event;
+Map* map;
 
 Engine::Engine() { //engine constructor
     this->isRunning = false;
@@ -20,7 +22,7 @@ Engine::Engine() { //engine constructor
 Engine::~Engine() {
 }
 
-bool Engine::IsRunning() const {
+bool Engine::IsRunning() {
     return this->isRunning;
 }
 
@@ -55,6 +57,10 @@ void Engine::Initialize(int width, int height) {
 
 void Engine::LoadLevel(int levelNumber) { //function used to run level
     assetManager->AddTexture("player_image", std::string("Assets/Player/Run.png").c_str()); //Adds a texture to the asset manager
+    assetManager->AddTexture("jungle-tiletexture", std::string("Assets/Map/Tiles/jungle.png").c_str());
+
+    map = new Map("jungle-tiletexture", 1, 32);
+    map->LoadMap("Assets/Map/jungle.map", 25, 20);
 
     Entity& player(manager.AddEntity("Player")); //Creates a player entity and adds it to the entity manager
     player.AddComponent<TransformComponent>(0, 0, 0, 0, 49, 43, 2); //adds transform ccomponent to player
@@ -77,6 +83,7 @@ void Engine::ProcessInput() {
         if (event.key.keysym.sym == SDLK_ESCAPE) {
             isRunning = false;
         }
+        break;
     }
     default: {
         break;
