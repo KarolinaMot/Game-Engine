@@ -62,7 +62,7 @@ void Engine::LoadLevel(int levelNumber) { //function used to run level
     map = new Map("jungle-tiletexture", 2, 32);
     map->LoadMap("Assets/Maps/jungle.map", 25, 20);
 
-    Entity& player(manager.AddEntity("Player")); //Creates a player entity and adds it to the entity manager
+    Entity& player(manager.AddEntity("Player", PLAYER_LAYER)); //Creates a player entity and adds it to the entity manager
     player.AddComponent<TransformComponent>(0, 0, 0, 0, 49, 43, 2); //adds transform ccomponent to player
     player.AddComponent<SpriteComponent>("player_image", 8, 80, false, false ); //adds sprite component and animation to player
     player.AddComponent<KeyboardControlComponent>(80, false, false, true, true);
