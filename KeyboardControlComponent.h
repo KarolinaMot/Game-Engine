@@ -16,16 +16,17 @@ class KeyboardControlComponent : public Component{
 		std::string attackKey = std::to_string(SDL_BUTTON_LEFT);
 		TransformComponent* transform;
 		SpriteComponent* sprite;
-		int speed;
+		int speed, mapHeight, mapWidth;
 		bool movesUp, movesDown, movesRight, movesLeft;
 
-		KeyboardControlComponent(int speed, bool movesUp, bool movesDown, bool movesRight, bool movesLeft) {
+		KeyboardControlComponent(int speed, bool movesUp, bool movesDown, bool movesRight, bool movesLeft, int mapHeight, int mapWidth) {
 
 			this->speed = speed;
 			this->movesUp = movesUp;
 			this->movesDown = movesDown;
 			this->movesRight = movesRight;
-			this->movesLeft = movesLeft;
+			this->mapHeight = mapHeight;
+			this->mapWidth = mapWidth;
 		}
 
 		void Initialize() override {
@@ -37,31 +38,22 @@ class KeyboardControlComponent : public Component{
 			if (Engine::event.type == SDL_KEYDOWN) {
 				std::string keyCode = std::to_string(Engine::event.key.keysym.sym); 
 				if (keyCode.compare(upKey) == 0) {
-					if(this->movesUp && transform->position.y - speed >=0){
 						transform->velocity.y = -speed;
-						transform->velocity.x = 0;
-					}
-					if (transform->position.y < 0) transform->position.y = 0;
+						transform->velocity.x = 0;		
+
 				}
 				if (keyCode.compare(rightKey) == 0 && this->movesRight ){
-					if(transform->position.x + speed <= WINDOW_WIDTH)
-					{ transform->velocity.y = 0;
-					transform->velocity.x = speed;}					
-					if (transform->position.x > WINDOW_WIDTH - transform->width) transform->position.x = WINDOW_WIDTH - transform->width;
+					transform->velocity.y = 0;
+					transform->velocity.x = speed;			
 					if (sprite->hasDirection) sprite->Play("RightAnimation");
 				}
 				if(keyCode.compare(downKey)==0 && this->movesDown){
-					if(transform->position.y + speed <= WINDOW_HEIGHT){
 					transform->velocity.y = speed;
-					transform->velocity.x = 0;}
-					if (transform->position.y > WINDOW_HEIGHT) transform->position.y = WINDOW_HEIGHT;
+					transform->velocity.x = 0;
 				}
 				if(keyCode.compare(leftKey) ==0 && this->movesLeft ){
-					if (transform->position.x - speed >= 0) {
 						transform->velocity.y = 0;
 						transform->velocity.x = -speed;
-					}
-					if (transform->position.x < 0) transform->position.x = 0;
 					if (sprite->hasDirection)  sprite->Play("LeftAnimation");
 				}
 				if(keyCode.compare(attackKey) == 0){}

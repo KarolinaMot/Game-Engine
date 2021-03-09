@@ -33,7 +33,8 @@ class TileComponent : public Component {
 		}
 
 		void Update(float deltaTime) override { //takes care of the tile positions based on the camera control
-			
+			destinationRectangle.x = position.x - Engine::camera.x;
+			destinationRectangle.y = position.y - Engine::camera.y;
 		}
 
 		void Render() override {

@@ -57,9 +57,11 @@
     <ClInclude Include="AssetManager.h">
       <Filter>src\AssetManager</Filter>
     </ClInclude>
-    <ClInclude Include="TileComponent.h" />
     <ClInclude Include="Map.h">
       <Filter>src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TileComponent.h">
+      <Filter>src\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

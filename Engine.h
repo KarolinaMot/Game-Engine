@@ -20,12 +20,14 @@ class Engine {
         static SDL_Renderer* renderer;
         static AssetManager* assetManager;
         static SDL_Event event;
+        static SDL_Rect camera;
         void LoadLevel(int levelNumber);
         void Initialize(int width, int height);
         void ProcessInput();
         void Update();
         void Render();
         void Destroy();
+        void HandleCameraMovement();
         static Engine* GetInstance() { return s_Instance = (s_Instance != nullptr) ? s_Instance : new Engine(); }
         inline SDL_Renderer* GetRenderer() { return renderer; }
 

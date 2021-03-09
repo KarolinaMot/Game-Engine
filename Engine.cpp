@@ -13,6 +13,7 @@ EntityManager manager;
 AssetManager* Engine::assetManager = new AssetManager(&manager);
 SDL_Renderer* Engine::renderer;
 SDL_Event Engine::event;
+SDL_Rect Engine::camera = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 Map* map;
 
 Engine::Engine() { //engine constructor
@@ -54,7 +55,7 @@ void Engine::Initialize(int width, int height) {
     isRunning = true;
     return;
 }
-
+Entity& player(manager.AddEntity("Player", PLAYER_LAYER)); //Creates a player entity and adds it to the entity manager
 void Engine::LoadLevel(int levelNumber) { //function used to run level
     assetManager->AddTexture("player_image", std::string("Assets/Player/Run.png").c_str()); //Adds a texture to the asset manager
     assetManager->AddTexture("jungle-tiletexture", std::string("Assets/Maps/Tiles/jungle.png").c_str());
@@ -62,10 +63,10 @@ void Engine::LoadLevel(int levelNumber) { //function used to run level
     map = new Map("jungle-tiletexture", 2, 32);
     map->LoadMap("Assets/Maps/jungle.map", 25, 20);
 
-    Entity& player(manager.AddEntity("Player", PLAYER_LAYER)); //Creates a player entity and adds it to the entity manager
+    
     player.AddComponent<TransformComponent>(0, 0, 0, 0, 49, 43, 2); //adds transform ccomponent to player
     player.AddComponent<SpriteComponent>("player_image", 8, 80, false, false ); //adds sprite component and animation to player
-    player.AddComponent<KeyboardControlComponent>(80, false, false, true, true);
+    player.AddComponent<KeyboardControlComponent>(80, false, false, true, true, 20, 25);
 
     manager.ListAllEntities(); 
 
@@ -110,6 +111,8 @@ void Engine::Update() {
     ticksLastFrame = SDL_GetTicks();
 
     manager.Update(deltaTime);
+
+    HandleCameraMovement();
 }
 
 void Engine::Render() {
@@ -123,6 +126,18 @@ void Engine::Render() {
     manager.Render();
 
     SDL_RenderPresent(renderer);
+}
+
+void Engine::HandleCameraMovement() {
+    TransformComponent* mainPlayerTransform = player.GetComponent<TransformComponent>();
+    camera.x = mainPlayerTransform->position.x - (WINDOW_WIDTH / 2);
+    camera.y= mainPlayerTransform->position.y - (WINDOW_HEIGHT / 2);
+
+    //Clamps values of camera
+    camera.x = camera.x < 0 ? 0 : camera.x;
+    camera.x = camera.x > camera.w ? camera.w : camera.x;
+    camera.y = camera.y < 0 ? 0 : camera.y;
+    camera.y = camera.y > camera.h ? camera.h : camera.y;
 }
 
 void Engine::Destroy() {
