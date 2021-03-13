@@ -1,8 +1,9 @@
 #ifndef TRANSFORMCOMPONENT_H
 #define TRANSFORMCOMPONENT_H
-#include "EntityManager.h"
-#include "glm/glm.hpp"
+
 #include <SDL2/SDL.h>
+#include "EntityManager.h"
+#include <glm/glm.hpp>
 #include "Engine.h"
 
 class TransformComponent : public Component {
@@ -12,14 +13,13 @@ public:
     int width;
     int height;
     int scale;
-   
 
-    TransformComponent(int posX, int posY, int velX, int velY, int w, int h, int s) { //Transform component's constructor, which sets the entity's starting position, velocity, height, width and scale
-        position = glm::vec2(posX, posY); //sets the entity's starting position
-        velocity = glm::vec2(velX, velY); //sets the entity's velocity
-        width = w; //entity's width
-        height = h; //entity's height
-        scale = s; //entity's scale
+    TransformComponent(int posX, int posY, int velX, int velY, int w, int h, int s) {
+        position = glm::vec2(posX, posY);
+        velocity = glm::vec2(velX, velY);
+        width = w;
+        height = h;
+        scale = s;
     }
 
     void Initialize() override {
@@ -29,9 +29,6 @@ public:
     void Update(float deltaTime) override {
         position.x += velocity.x * deltaTime;
         position.y += velocity.y * deltaTime;
-    }
-
-    void Render() override {
     }
 };
 

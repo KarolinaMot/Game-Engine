@@ -3,9 +3,9 @@
 #include "Engine.h"
 #include "AssetManager.h"
 #include "Map.h"
-#include "EntityManager.h"
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
+#include "ColliderComponent.h"
 #include "KeyboardControlComponent.h"
 #include "glm/glm.hpp"
 
@@ -13,26 +13,27 @@ EntityManager manager;
 AssetManager* Engine::assetManager = new AssetManager(&manager);
 SDL_Renderer* Engine::renderer;
 SDL_Event Engine::event;
-SDL_Rect Engine::camera = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+SDL_Rect Engine::camera = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
 Map* map;
+bool isDebugMode = false;
 
-Engine::Engine() { //engine constructor
+Engine::Engine() {
     this->isRunning = false;
 }
 
 Engine::~Engine() {
 }
 
-bool Engine::IsRunning() {
+bool Engine::IsRunning() const {
     return this->isRunning;
 }
 
 void Engine::Initialize(int width, int height) {
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) { //if sld libraries initialized
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cerr << "Error initializing SDL." << std::endl;
         return;
     }
-    window = SDL_CreateWindow( //creates window
+    window = SDL_CreateWindow(
         NULL,
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
@@ -40,55 +41,74 @@ void Engine::Initialize(int width, int height) {
         height,
         SDL_WINDOW_BORDERLESS
     );
-    if (!window) { //checks if window was created succesfully
+    if (!window) {
         std::cerr << "Error creating SDL window." << std::endl;
         return;
     }
-    renderer = SDL_CreateRenderer(window, -1, 0); //creates a renderer
-    if (!renderer) { //checks if renderer was created
+    renderer = SDL_CreateRenderer(window, -1, 0);
+    if (!renderer) {
         std::cerr << "Error creating SDL renderer." << std::endl;
         return;
     }
 
-    LoadLevel(0); //loads a level
+    LoadLevel(0);
 
     isRunning = true;
     return;
 }
-Entity& player(manager.AddEntity("Player", PLAYER_LAYER)); //Creates a player entity and adds it to the entity manager
-void Engine::LoadLevel(int levelNumber) { //function used to run level
-    assetManager->AddTexture("player_image", std::string("Assets/Player/Run.png").c_str()); //Adds a texture to the asset manager
-    assetManager->AddTexture("jungle-tiletexture", std::string("Assets/Maps/Tiles/jungle.png").c_str());
+
+
+Entity& player(manager.AddEntity("chopper", PLAYER_LAYER));
+
+void Engine::LoadLevel(int levelNumber) {
+    /* Start including new assets to the assetmanager list */
+    assetManager->AddTexture("tank-image", std::string("./assets/images/tank-big-right.png").c_str());
+    assetManager->AddTexture("chopper-image", std::string("./assets/images/chopper-spritesheet.png").c_str());
+    assetManager->AddTexture("radar-image", std::string("./assets/images/radar.png").c_str());
+    assetManager->AddTexture("jungle-tiletexture", std::string("./assets/tilemaps/jungle.png").c_str());
+    assetManager->AddTexture("heliport-image", std::string("./assets/images/heliport.png").c_str());
 
     map = new Map("jungle-tiletexture", 2, 32);
-    map->LoadMap("Assets/Maps/jungle.map", 25, 20);
+    map->LoadMap("./assets/tilemaps/jungle.map", 25, 20);
 
-    
-    player.AddComponent<TransformComponent>(0, 0, 0, 0, 49, 43, 2); //adds transform ccomponent to player
-    player.AddComponent<SpriteComponent>("player_image", 8, 80, false, false ); //adds sprite component and animation to player
-    player.AddComponent<KeyboardControlComponent>(80, false, false, true, true, 20, 25);
+    /* Start including entities and also components to them */
+    player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
+    player.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
+    player.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");
+    player.AddComponent<ColliderComponent>("PLAYER", 240, 106, 32, 32, isDebugMode);
 
-    manager.ListAllEntities(); 
+    Entity& tankEntity(manager.AddEntity("tank", ENEMY_LAYER));
+    tankEntity.AddComponent<TransformComponent>(150, 495, 5, 0, 32, 32, 1);
+    tankEntity.AddComponent<SpriteComponent>("tank-image");
+    tankEntity.AddComponent<ColliderComponent>("ENEMY", 150, 495, 32, 32, isDebugMode);
 
+    //Entity& labelLevelName(manager.AddEntity("LabelLevelName", UI_LAYER));
+    //labelLevelName.AddComponent<TextLabelComponent>(10, 10, "First Level...", "charriot-font", WHITE_COLOR);
 }
 
 void Engine::ProcessInput() {
-    
     SDL_PollEvent(&event);
     switch (event.type) {
-        case SDL_QUIT: {
+    case SDL_QUIT: {
+        isRunning = false;
+        break;
+    }
+    case SDL_KEYDOWN: {
+        if (event.key.keysym.sym == SDLK_ESCAPE) {
             isRunning = false;
-            break;
         }
-        case SDL_KEYDOWN: {
-            if (event.key.keysym.sym == SDLK_ESCAPE) {
-                isRunning = false;
-            }
-            break;
+        if (event.key.keysym.sym == SDLK_F1) {
+            if (!isDebugMode)
+                isDebugMode = true;
+            else
+                isDebugMode = false;
         }
-        default: {
-            break;
-        }
+        
+    }
+
+    default: {
+        break;
+    }
     }
 }
 
@@ -101,7 +121,7 @@ void Engine::Update() {
         SDL_Delay(timeToWait);
     }
 
-    // Delta time is the difference in ticks from last frame converted to secomds
+    // Delta time is the difference in ticks from last frame converted to seconds
     float deltaTime = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;
 
     // Clamp deltaTime to a maximum value
@@ -112,7 +132,11 @@ void Engine::Update() {
 
     manager.Update(deltaTime);
 
+    if (isDebugMode)
+        manager.DebugMode();
+
     HandleCameraMovement();
+    CheckCollisions();
 }
 
 void Engine::Render() {
@@ -130,18 +154,43 @@ void Engine::Render() {
 
 void Engine::HandleCameraMovement() {
     TransformComponent* mainPlayerTransform = player.GetComponent<TransformComponent>();
-    camera.x = mainPlayerTransform->position.x - (WINDOW_WIDTH / 2);
-    camera.y= mainPlayerTransform->position.y - (WINDOW_HEIGHT / 2);
 
-    //Clamps values of camera
+    camera.x = mainPlayerTransform->position.x - (WINDOW_WIDTH / 2);
+    camera.y = mainPlayerTransform->position.y - (WINDOW_HEIGHT / 2);
+
     camera.x = camera.x < 0 ? 0 : camera.x;
-    camera.x = camera.x > camera.w ? camera.w : camera.x;
     camera.y = camera.y < 0 ? 0 : camera.y;
+    camera.x = camera.x > camera.w ? camera.w : camera.x;
     camera.y = camera.y > camera.h ? camera.h : camera.y;
+}
+
+void Engine::CheckCollisions() {
+    CollisionType collisionType = manager.CheckCollisions();
+    if (collisionType == PLAYER_ENEMY_COLLISION) {
+        ProcessGameOver();
+    }
+    if (collisionType == PLAYER_LEVEL_COMPLETE_COLLISION) {
+        ProcessNextLevel(1);
+    }
+}
+
+void Engine::ProcessNextLevel(int levelNumber) {
+    std::cout << "Next Level" << std::endl;
+    isRunning = false;
+}
+
+void Engine::ProcessGameOver() {
+    std::cout << "Game Over" << std::endl;
+    isRunning = false;
 }
 
 void Engine::Destroy() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+}
+
+void Engine::Debug()
+{
+
 }

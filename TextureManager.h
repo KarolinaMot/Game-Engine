@@ -1,16 +1,12 @@
-#pragma once
-#include <SDL2/SDL_image.h>
-#include <string>
-#include <map>
+#ifndef TEXTUREMANAGER_H
+#define TEXTUREMANAGER_H
+
 #include "Engine.h"
 
-class TextureManager
-{
-	public:
-		static SDL_Texture* LoadTexture(const char* filename); //funkcija kuri uzkraus tekstura
-		static void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip  flip);
-
-	private:
-		static std::map<std::string, SDL_Texture*> TileTexMap;
+class TextureManager {
+public:
+    static SDL_Texture* LoadTexture(const char* fileName);
+    static void Draw(SDL_Texture* texture, SDL_Rect sourceRectangle, SDL_Rect destinationRectangle, SDL_RendererFlip flip);
 };
 
+#endif
