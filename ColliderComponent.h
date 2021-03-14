@@ -13,13 +13,11 @@ public:
     SDL_Rect sourceRectangle;
     SDL_Rect destinationRectangle;
     TransformComponent* transform;
-    bool debug;
 
 
-    ColliderComponent(std::string colliderTag, int x, int y, int width, int height, bool debug) {
+    ColliderComponent(std::string colliderTag, int x, int y, int width, int height) {
         this->colliderTag = colliderTag;
         this->collider = { x, y, width, height };
-        this->debug = debug;
     }
 
     void Initialize() override {
@@ -39,15 +37,12 @@ public:
         destinationRectangle.y = collider.y - Engine::camera.y;
     }
 
-    void Render() override {
-        /*
-        if(debug)
-        { 
-            SDL_RenderDrawRect(Engine::renderer, &destinationRectangle);
-        }*/
-
-        SDL_RenderDrawRect(Engine::renderer, &destinationRectangle);
-                   
+    void RenderIf(bool debug) override{
+        if (debug)
+        {
+            SDL_RenderDrawRect(Engine::renderer, &destinationRectangle);     
+        }
+           
     }
 };
 

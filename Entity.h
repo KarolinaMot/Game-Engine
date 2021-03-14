@@ -26,6 +26,7 @@ class Entity {
         Entity(EntityManager& manager, std::string name, LayerType layer);
         void Update(float deltaTime);
         void Render();
+        void Render(bool isRendering);
         void Destroy();
         bool IsActive() const;
         void ListAllComponents() const;

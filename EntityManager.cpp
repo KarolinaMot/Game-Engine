@@ -23,6 +23,14 @@ void EntityManager::Render() {
     }
 }
 
+void EntityManager::Render(bool isRendering) {
+    for (int layerNumber = 0; layerNumber < NUM_LAYERS; layerNumber++) {
+        for (auto& entity : GetEntitiesByLayer(static_cast<LayerType>(layerNumber))) {
+            entity->Render(isRendering);
+        }
+    }
+}
+
 bool EntityManager::HasNoEntities() const {
     return entities.size() == 0;
 }
@@ -61,22 +69,22 @@ void EntityManager::DebugMode()
         {
             ColliderComponent* collider = entity->GetComponent<ColliderComponent>();
             SDL_RenderDrawRect(Engine::renderer, &collider->destinationRectangle);
-            std::cout << collider->colliderTag << "(" << collider->destinationRectangle.x << "; " << collider->destinationRectangle.y << ");" << std::endl<< std::endl;           
+            std::cout << collider->colliderTag << "(" << collider->destinationRectangle.x << "; " << collider->destinationRectangle.y << "); " << entity->layer << std::endl << std::endl;
         }
     }
 }
 
 CollisionType EntityManager::CheckCollisions() const {
-    for (int i = 0; i < entities.size() - 1; i++) {
-        auto& thisEntity = entities[i];
-        if (thisEntity->HasComponent<ColliderComponent>()) {
-            ColliderComponent* thisCollider = thisEntity->GetComponent<ColliderComponent>();
-            for (int j = i + 1; j < entities.size(); j++) {
-                auto& thatEntity = entities[j];
-                if (thisEntity->name.compare(thatEntity->name) != 0 && thatEntity->HasComponent<ColliderComponent>()) {
-                    ColliderComponent* thatCollider = thatEntity->GetComponent<ColliderComponent>();
-                    if (Collision::CheckRectangleCollision(thisCollider->collider, thatCollider->collider)) {
-                        if (thisCollider->colliderTag.compare("PLAYER") == 0 && thatCollider->colliderTag.compare("ENEMY") == 0) {
+    for (int i = 0; i < entities.size() - 1; i++) {//looping through all entities
+        auto& thisEntity = entities[i]; //the entity getting checked
+        if (thisEntity->HasComponent<ColliderComponent>()) { //checking if entity has a collider component
+            ColliderComponent* thisCollider = thisEntity->GetComponent<ColliderComponent>(); //the entity's component
+            for (int j = i + 1; j < entities.size(); j++) { //loops again through all entities again
+                auto& thatEntity = entities[j]; //an entity that is maybe colliding with "thisEntity"
+                if (thisEntity->name.compare(thatEntity->name) != 0 && thatEntity->HasComponent<ColliderComponent>()) { //checking for a collider component and that both entity's names are different
+                    ColliderComponent* thatCollider = thatEntity->GetComponent<ColliderComponent>(); //the collider of that second entity
+                    if (Collision::CheckRectangleCollision(thisCollider->collider, thatCollider->collider)) { //checks collision between both entities
+                        if (thisCollider->colliderTag.compare("PLAYER") == 0 && thatCollider->colliderTag.compare("ENEMY") == 0) { //checks what type of collision happened
                             return PLAYER_ENEMY_COLLISION;
                         }
                         if (thisCollider->colliderTag.compare("PLAYER") == 0 && thatCollider->colliderTag.compare("PROJECTILE") == 0) {
@@ -93,7 +101,7 @@ CollisionType EntityManager::CheckCollisions() const {
             }
         }
     }
-    return NO_COLLISION;
+    return NO_COLLISION; //if there is no collision, returns no collision
 }
 
 Entity& EntityManager::AddEntity(std::string entityName, LayerType layer) {

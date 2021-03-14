@@ -72,6 +72,9 @@
     <ClInclude Include="Entity.h">
       <Filter>src\ECS</Filter>
     </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
