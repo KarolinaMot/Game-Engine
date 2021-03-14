@@ -12,6 +12,7 @@ public:
     void ClearData();
     void Update(float deltaTime);
     void Render();
+    void Render(bool isRendering);
     bool HasNoEntities() const;
     unsigned int GetEntityCount() const;
     void ListAllEntities() const;

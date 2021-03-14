@@ -21,6 +21,12 @@ void Entity::Render() {
     }
 }
 
+void Entity::Render(bool isRendering) {
+    for (auto& component : components) {
+        component->RenderIf(isRendering);
+    }
+}
+
 void Entity::Destroy() {
     this->isActive = false;
 }

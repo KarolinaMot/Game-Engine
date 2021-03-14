@@ -75,15 +75,22 @@ void Engine::LoadLevel(int levelNumber) {
     player.AddComponent<TransformComponent>(240, 106, 0, 0, 32, 32, 1);
     player.AddComponent<SpriteComponent>("chopper-image", 2, 90, true, false);
     player.AddComponent<KeyboardControlComponent>("up", "right", "down", "left", "space");
-    player.AddComponent<ColliderComponent>("PLAYER", 240, 106, 32, 32, isDebugMode);
+    player.AddComponent<ColliderComponent>("PLAYER", 240, 106, 32, 32);
 
     Entity& tankEntity(manager.AddEntity("tank", ENEMY_LAYER));
     tankEntity.AddComponent<TransformComponent>(150, 495, 5, 0, 32, 32, 1);
     tankEntity.AddComponent<SpriteComponent>("tank-image");
-    tankEntity.AddComponent<ColliderComponent>("ENEMY", 150, 495, 32, 32, isDebugMode);
+    tankEntity.AddComponent<ColliderComponent>("ENEMY", 150, 495, 32, 32);
 
-    //Entity& labelLevelName(manager.AddEntity("LabelLevelName", UI_LAYER));
-    //labelLevelName.AddComponent<TextLabelComponent>(10, 10, "First Level...", "charriot-font", WHITE_COLOR);
+    Entity& heliport(manager.AddEntity("Heliport", OBSTACLE_LAYER));
+    heliport.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
+    heliport.AddComponent<SpriteComponent>("heliport-image");
+    heliport.AddComponent<ColliderComponent>("LEVEL_COMPLETE", 470, 420, 32, 32);
+
+    Entity& radarEntity(manager.AddEntity("Radar", UI_LAYER));
+    radarEntity.AddComponent<TransformComponent>(720, 15, 0, 0, 64, 64, 1);
+    radarEntity.AddComponent<SpriteComponent>("radar-image", 8, 150, false, true);
+
 }
 
 void Engine::ProcessInput() {
@@ -102,8 +109,7 @@ void Engine::ProcessInput() {
                 isDebugMode = true;
             else
                 isDebugMode = false;
-        }
-        
+        }   
     }
 
     default: {
@@ -136,7 +142,7 @@ void Engine::Update() {
         manager.DebugMode();
 
     HandleCameraMovement();
-    CheckCollisions();
+    CheckCollisions();// game loop check collisions
 }
 
 void Engine::Render() {
@@ -148,6 +154,7 @@ void Engine::Render() {
     }
 
     manager.Render();
+    manager.Render(isDebugMode);
 
     SDL_RenderPresent(renderer);
 }
