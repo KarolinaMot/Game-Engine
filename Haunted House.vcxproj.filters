@@ -28,6 +28,9 @@
     <ClCompile Include="Entity.cpp">
       <Filter>src\ECS</Filter>
     </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>src\FontManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -75,6 +78,12 @@
     <ClInclude Include="Constants.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>src\FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TextLabelComponent.h">
+      <Filter>src\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -104,9 +113,12 @@
     <Filter Include="src\Collision">
       <UniqueIdentifier>{1e9ba522-dc2f-4573-a07e-e0766692dbe6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\FontManager">
+      <UniqueIdentifier>{0fb3f75c-d624-4597-838a-14eed1e66c51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Hounted House.rc">
+    <ResourceCompile Include="Game Engine.rc">
       <Filter>src</Filter>
     </ResourceCompile>
   </ItemGroup>

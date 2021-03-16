@@ -32,7 +32,6 @@ public:
     void Destroy();
     void HandleCameraMovement();
     void CheckCollisions();
-    void Debug();
 };
 
 #endif

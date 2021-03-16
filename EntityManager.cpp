@@ -79,7 +79,7 @@ CollisionType EntityManager::CheckCollisions() const {
         auto& thisEntity = entities[i]; //the entity getting checked
         if (thisEntity->HasComponent<ColliderComponent>()) { //checking if entity has a collider component
             ColliderComponent* thisCollider = thisEntity->GetComponent<ColliderComponent>(); //the entity's component
-            for (int j = i + 1; j < entities.size(); j++) { //loops again through all entities again
+            for (int j = i + 1; j < entities.size(); j++) { //loops again through all entities again, checks only from the fist entity to the ones after it
                 auto& thatEntity = entities[j]; //an entity that is maybe colliding with "thisEntity"
                 if (thisEntity->name.compare(thatEntity->name) != 0 && thatEntity->HasComponent<ColliderComponent>()) { //checking for a collider component and that both entity's names are different
                     ColliderComponent* thatCollider = thatEntity->GetComponent<ColliderComponent>(); //the collider of that second entity
