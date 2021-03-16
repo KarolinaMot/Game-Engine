@@ -84,6 +84,9 @@
     <ClInclude Include="TextLabelComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ProjectileEmitterComponent.h">
+      <Filter>src\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">

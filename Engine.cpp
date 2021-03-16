@@ -8,6 +8,7 @@
 #include "ColliderComponent.h"
 #include "KeyboardControlComponent.h"
 #include "TextLabelComponent.h"
+#include "ProjectileEmitterComponent.h"
 #include "glm/glm.hpp"
 
 EntityManager manager;
@@ -72,6 +73,7 @@ void Engine::LoadLevel(int levelNumber) {
     assetManager->AddTexture("radar-image", std::string("./assets/images/radar.png").c_str());
     assetManager->AddTexture("jungle-tiletexture", std::string("./assets/tilemaps/jungle.png").c_str());
     assetManager->AddTexture("heliport-image", std::string("./assets/images/heliport.png").c_str());
+    assetManager->AddTexture("projectile-image", std::string("./assets/images/bullet-enemy.png").c_str());
     assetManager->AddFont("charriot-font", std::string("./assets/fonts/charriot.ttf").c_str(), 14);
 
     map = new Map("jungle-tiletexture", 2, 32);
@@ -84,9 +86,16 @@ void Engine::LoadLevel(int levelNumber) {
     player.AddComponent<ColliderComponent>("PLAYER", 240, 106, 32, 32);
 
     Entity& tankEntity(manager.AddEntity("tank", ENEMY_LAYER));
-    tankEntity.AddComponent<TransformComponent>(150, 495, 5, 0, 32, 32, 1);
+    tankEntity.AddComponent<TransformComponent>(150, 495, 10, 0, 32, 32, 1);
     tankEntity.AddComponent<SpriteComponent>("tank-image");
+
     tankEntity.AddComponent<ColliderComponent>("ENEMY", 150, 495, 32, 32);
+
+    Entity& projectile(manager.AddEntity("projectile", PROJECTILE_LAYER));
+    tankEntity.AddComponent<TransformComponent>(tankEntity.GetComponent<TransformComponent>()->position.x+ tankEntity.GetComponent<TransformComponent>()->width/2, tankEntity.GetComponent<TransformComponent>()->position.y + tankEntity.GetComponent<TransformComponent>()->height / 2, 0, 0, 4, 4, 1);
+    tankEntity.AddComponent<SpriteComponent>("projectile-image");
+    tankEntity.AddComponent<ColliderComponent>("PROJECTILE", tankEntity.GetComponent<TransformComponent>()->position.x + tankEntity.GetComponent<TransformComponent>()->width / 2, tankEntity.GetComponent<TransformComponent>()->position.y + tankEntity.GetComponent<TransformComponent>()->height / 2,  4, 4);
+    tankEntity.AddComponent<ProjectileEmitterComponent>(50, 270, 200, true);
 
     Entity& heliport(manager.AddEntity("Heliport", OBSTACLE_LAYER));
     heliport.AddComponent<TransformComponent>(470, 420, 0, 0, 32, 32, 1);
@@ -120,10 +129,9 @@ void Engine::ProcessInput() {
                 isDebugMode = false;
         }   
     }
-
-    default: {
-        break;
-    }
+        default: {
+            break;
+        }
     }
 }
 
@@ -182,11 +190,16 @@ void Engine::HandleCameraMovement() {
 
 void Engine::CheckCollisions() {
     CollisionType collisionType = manager.CheckCollisions();
+
     if (collisionType == PLAYER_ENEMY_COLLISION) {
         ProcessGameOver();
     }
     if (collisionType == PLAYER_LEVEL_COMPLETE_COLLISION) {
         ProcessNextLevel(1);
+    }
+    if (collisionType == PLAYER_PROJECTILE_COLLISION)
+    {
+        ProcessGameOver();
     }
 }
 

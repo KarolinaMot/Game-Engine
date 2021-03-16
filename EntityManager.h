@@ -11,6 +11,7 @@ private:
 public:
     void ClearData();
     void Update(float deltaTime);
+    void DestroyInactiveEntities();
     void Render();
     void Render(bool isRendering);
     bool HasNoEntities() const;

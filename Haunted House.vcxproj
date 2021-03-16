@@ -182,6 +182,7 @@
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="KeyboardControlComponent.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="ProjectileEmitterComponent.h" />
     <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="TextLabelComponent.h" />
     <ClInclude Include="TileComponent.h" />
