@@ -1,5 +1,4 @@
-#ifndef ENTITYMANAGER_H
-#define ENTITYMANAGER_H
+#pragma once
 
 #include "Entity.h"
 #include "Component.h"
@@ -24,4 +23,4 @@ public:
     CollisionType CheckCollisions() const;
 };
 
-#endif
+

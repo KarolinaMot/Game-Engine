@@ -1,11 +1,11 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Entity.h"
 #include "Component.h"
 #include "EntityManager.h"
+
 
 class AssetManager;
 
@@ -14,7 +14,7 @@ private:
     bool isRunning;
     SDL_Window* window;
 public:
-    Engine();
+    Engine();   
     ~Engine();
     int ticksLastFrame = 0;
     bool IsRunning() const;
@@ -34,4 +34,4 @@ public:
     void CheckCollisions();
 };
 
-#endif
+

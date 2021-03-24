@@ -1,5 +1,4 @@
-#ifndef KEYBOARDCONTROLCOMPONENT_H
-#define KEYBOARDCONTROLCOMPONENT_H
+#pragma once
 
 #include "Engine.h"
 #include "EntityManager.h"
@@ -89,4 +88,4 @@ public:
     }
 };
 
-#endif
+

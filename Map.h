@@ -1,5 +1,4 @@
-#ifndef MAP_H
-#define MAP_H
+#pragma once
 
 #include <string>
 
@@ -15,4 +14,4 @@ public:
     void AddTile(int sourceX, int sourceY, int x, int y);
 };
 
-#endif
+

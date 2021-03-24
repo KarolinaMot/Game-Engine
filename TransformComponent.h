@@ -1,5 +1,4 @@
-#ifndef TRANSFORMCOMPONENT_H
-#define TRANSFORMCOMPONENT_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include "EntityManager.h"
@@ -32,4 +31,4 @@ public:
     }
 };
 
-#endif
+

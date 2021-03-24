@@ -1,5 +1,4 @@
-#ifndef SPRITECOMPONENT_H
-#define SPRITECOMPONENT_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include "TextureManager.h"
@@ -101,4 +100,4 @@ public:
     }
 };
 
-#endif
+

@@ -1,5 +1,4 @@
-#ifndef ASSETMANAGER_H
-#define ASSETMANAGER_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -25,4 +24,4 @@ public:
     TTF_Font* GetFont(std::string fontId);
 };
 
-#endif
+

@@ -86,15 +86,14 @@ void Engine::LoadLevel(int levelNumber) {
     player.AddComponent<ColliderComponent>("PLAYER", 240, 106, 32, 32);
 
     Entity& tankEntity(manager.AddEntity("tank", ENEMY_LAYER));
-    tankEntity.AddComponent<TransformComponent>(150, 495, 10, 0, 32, 32, 1);
+    tankEntity.AddComponent<TransformComponent>(150, 495, 0, 0, 32, 32, 1);
     tankEntity.AddComponent<SpriteComponent>("tank-image");
-
     tankEntity.AddComponent<ColliderComponent>("ENEMY", 150, 495, 32, 32);
 
     Entity& projectile(manager.AddEntity("projectile", PROJECTILE_LAYER));
     tankEntity.AddComponent<TransformComponent>(tankEntity.GetComponent<TransformComponent>()->position.x+ tankEntity.GetComponent<TransformComponent>()->width/2, tankEntity.GetComponent<TransformComponent>()->position.y + tankEntity.GetComponent<TransformComponent>()->height / 2, 0, 0, 4, 4, 1);
     tankEntity.AddComponent<SpriteComponent>("projectile-image");
-    tankEntity.AddComponent<ColliderComponent>("PROJECTILE", tankEntity.GetComponent<TransformComponent>()->position.x + tankEntity.GetComponent<TransformComponent>()->width / 2, tankEntity.GetComponent<TransformComponent>()->position.y + tankEntity.GetComponent<TransformComponent>()->height / 2,  4, 4);
+    tankEntity.AddComponent<ColliderComponent>("PROJECTILE", tankEntity.GetComponent<TransformComponent>()->position.x + tankEntity.GetComponent<TransformComponent>()->width / 2, tankEntity.GetComponent<TransformComponent>()->position.y + tankEntity.GetComponent<TransformComponent>()->height / 2, 4, 4);
     tankEntity.AddComponent<ProjectileEmitterComponent>(50, 270, 200, true);
 
     Entity& heliport(manager.AddEntity("Heliport", OBSTACLE_LAYER));
@@ -108,7 +107,7 @@ void Engine::LoadLevel(int levelNumber) {
 
     Entity& labelLevelName(manager.AddEntity("LabelLevelName", UI_LAYER));
     labelLevelName.AddComponent<TextLabelComponent>(10, 10, "First Level...", "charriot-font", WHITE_COLOR);
-
+    
 }
 
 void Engine::ProcessInput() {
@@ -136,22 +135,22 @@ void Engine::ProcessInput() {
 }
 
 void Engine::Update() {
-    // Waste some time / sleep until we reach the target frame time in milliseconds
-    int timeToWait = FRAME_TARGET_TIME - (SDL_GetTicks() - ticksLastFrame);
+    
+    int timeToWait = FRAME_TARGET_TIME - (SDL_GetTicks() - ticksLastFrame);// wait until we reach the target frame time in milliseconds
 
-    // Only sleep if we are too fast
-    if (timeToWait > 0 && timeToWait <= FRAME_TARGET_TIME) {
+    
+    if (timeToWait > 0 && timeToWait <= FRAME_TARGET_TIME) {// Only wait if we are too fast
         SDL_Delay(timeToWait);
     }
 
-    // Delta time is the difference in ticks from last frame converted to seconds
-    float deltaTime = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;
+    
+    float deltaTime = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;// the difference in ticks from last frame converted to seconds
 
-    // Clamp deltaTime to a maximum value
-    deltaTime = (deltaTime > 0.05f) ? 0.05f : deltaTime;
+  
+    deltaTime = (deltaTime > 0.05f) ? 0.05f : deltaTime;  // Clamp deltaTime to a maximum value
 
-    // Sets the new ticks for the current frame to be used in the next pass
-    ticksLastFrame = SDL_GetTicks();
+    
+    ticksLastFrame = SDL_GetTicks();// Sets the new ticks for the current frame to be used in the next pass
 
     manager.Update(deltaTime);
 

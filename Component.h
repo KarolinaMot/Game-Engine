@@ -1,5 +1,4 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#pragma once
 
 class Entity;
 
@@ -13,4 +12,4 @@ public:
     virtual void RenderIf(bool isitRendering) {}
 };
 
-#endif
+

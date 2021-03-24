@@ -1,5 +1,4 @@
-#ifndef COLLIDERCOMPONENT_H
-#define COLLIDERCOMPONENT_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include "Engine.h"
@@ -46,4 +45,3 @@ public:
     }
 };
 
-#endif

@@ -1,5 +1,4 @@
-#ifndef TILECOMPONENT_H
-#define TILECOMPONENT_H
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
@@ -45,4 +44,4 @@ public:
     }
 };
 
-#endif
+

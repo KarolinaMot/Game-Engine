@@ -23,10 +23,10 @@
       <Filter>src\Collision</Filter>
     </ClCompile>
     <ClCompile Include="EntityManager.cpp">
-      <Filter>src\ECS</Filter>
+      <Filter>src\Entity Component</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>src\ECS</Filter>
+      <Filter>src\Entity Component</Filter>
     </ClCompile>
     <ClCompile Include="FontManager.cpp">
       <Filter>src\FontManager</Filter>
@@ -67,13 +67,13 @@
       <Filter>src\Components</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>src\ECS</Filter>
+      <Filter>src\Entity Component</Filter>
     </ClInclude>
     <ClInclude Include="EntityManager.h">
-      <Filter>src\ECS</Filter>
+      <Filter>src\Entity Component</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>src\ECS</Filter>
+      <Filter>src\Entity Component</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>src</Filter>
@@ -94,9 +94,6 @@
     </Filter>
     <Filter Include="src\Engine">
       <UniqueIdentifier>{2874de1d-48d8-438f-a644-13d332e5d832}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\ECS">
-      <UniqueIdentifier>{ae5f9702-61e5-4c17-b422-a557bde8a0a6}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Map">
       <UniqueIdentifier>{f70889db-3db5-4b15-b891-2ca383b8a27f}</UniqueIdentifier>
@@ -119,10 +116,16 @@
     <Filter Include="src\FontManager">
       <UniqueIdentifier>{0fb3f75c-d624-4597-838a-14eed1e66c51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Entity Component">
+      <UniqueIdentifier>{ae5f9702-61e5-4c17-b422-a557bde8a0a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game Engine.rc">
       <Filter>src</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\scripts\level1.lua" />
   </ItemGroup>
 </Project>

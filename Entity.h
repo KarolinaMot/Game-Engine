@@ -1,5 +1,4 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#pragma once 
 
 #include <SDL2/SDL.h>
 #include <vector>
@@ -52,5 +51,3 @@ class Entity {
             return static_cast<T*>(componentTypeMap[&typeid(T)]);
         }
 };
-
-#endif

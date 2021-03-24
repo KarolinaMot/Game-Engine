@@ -1,5 +1,4 @@
-#ifndef TEXTUREMANAGER_H
-#define TEXTUREMANAGER_H
+#pragma once
 
 #include "Engine.h"
 
@@ -9,4 +8,4 @@ public:
     static void Draw(SDL_Texture* texture, SDL_Rect sourceRectangle, SDL_Rect destinationRectangle, SDL_RendererFlip flip);
 };
 
-#endif
+
