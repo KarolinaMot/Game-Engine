@@ -30,26 +30,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -158,39 +158,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="AssetManager.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EntityManager.cpp" />
-    <ClCompile Include="FontManager.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="src\animation\Animation.cpp" />
+    <ClCompile Include="src\AssetManager\AssetManager.cpp" />
+    <ClCompile Include="src\Collision\Collision.cpp" />
+    <ClCompile Include="src\Engine\Engine.cpp" />
+    <ClCompile Include="src\EntityComponent\Entity.cpp" />
+    <ClCompile Include="src\EntityComponent\EntityManager.cpp" />
+    <ClCompile Include="src\FontManager\FontManager.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Map\Map.cpp" />
+    <ClCompile Include="src\TextureManager\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="AssetManager.h" />
-    <ClInclude Include="ColliderComponent.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="Constants.h" />
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityManager.h" />
-    <ClInclude Include="FontManager.h" />
-    <ClInclude Include="KeyboardControlComponent.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="ProjectileEmitterComponent.h" />
-    <ClInclude Include="SpriteComponent.h" />
-    <ClInclude Include="TextLabelComponent.h" />
-    <ClInclude Include="TileComponent.h" />
-    <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="src\animation\Animation.h" />
+    <ClInclude Include="src\AssetManager\AssetManager.h" />
+    <ClInclude Include="src\component\ColliderComponent.h" />
+    <ClInclude Include="src\Collision\Collision.h" />
+    <ClInclude Include="src\component\Component.h" />
+    <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\Engine\Engine.h" />
+    <ClInclude Include="src\EntityComponent\Entity.h" />
+    <ClInclude Include="src\EntityComponent\EntityManager.h" />
+    <ClInclude Include="src\FontManager\FontManager.h" />
+    <ClInclude Include="src\component\KeyboardControlComponent.h" />
+    <ClInclude Include="src\Map\Map.h" />
+    <ClInclude Include="src\component\ProjectileEmitterComponent.h" />
+    <ClInclude Include="src\component\SpriteComponent.h" />
+    <ClInclude Include="src\component\TextLabelComponent.h" />
+    <ClInclude Include="src\component\TileComponent.h" />
+    <ClInclude Include="src\component\TransformComponent.h" />
+    <ClInclude Include="src\TextureManager\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Game Engine.rc" />
+    <ResourceCompile Include="src\Game Engine.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\scripts\level1.lua" />

@@ -1,90 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Engine.cpp">
+    <ClCompile Include="src\Engine\Engine.cpp">
       <Filter>src\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
+    <ClCompile Include="src\TextureManager\TextureManager.cpp">
       <Filter>src\Texture Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="src\Main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
+    <ClCompile Include="src\animation\Animation.cpp">
       <Filter>src\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="AssetManager.cpp">
+    <ClCompile Include="src\AssetManager\AssetManager.cpp">
       <Filter>src\AssetManager</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
+    <ClCompile Include="src\Map\Map.cpp">
       <Filter>src\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
+    <ClCompile Include="src\Collision\Collision.cpp">
       <Filter>src\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
+    <ClCompile Include="src\EntityComponent\EntityManager.cpp">
       <Filter>src\Entity Component</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
+    <ClCompile Include="src\EntityComponent\Entity.cpp">
       <Filter>src\Entity Component</Filter>
     </ClCompile>
-    <ClCompile Include="FontManager.cpp">
+    <ClCompile Include="src\FontManager\FontManager.cpp">
       <Filter>src\FontManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h">
+    <ClInclude Include="src\Engine\Engine.h">
       <Filter>src\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.h">
+    <ClInclude Include="src\TextureManager\TextureManager.h">
       <Filter>src\Texture Manager</Filter>
     </ClInclude>
-    <ClInclude Include="TransformComponent.h">
+    <ClInclude Include="src\component\TransformComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
+    <ClInclude Include="src\component\SpriteComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardControlComponent.h">
+    <ClInclude Include="src\component\KeyboardControlComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
+    <ClInclude Include="src\animation\Animation.h">
       <Filter>src\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="AssetManager.h">
+    <ClInclude Include="src\AssetManager\AssetManager.h">
       <Filter>src\AssetManager</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="src\Map\Map.h">
       <Filter>src\Map</Filter>
     </ClInclude>
-    <ClInclude Include="TileComponent.h">
+    <ClInclude Include="src\component\TileComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
+    <ClInclude Include="src\Collision\Collision.h">
       <Filter>src\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderComponent.h">
+    <ClInclude Include="src\component\ColliderComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
+    <ClInclude Include="src\component\Component.h">
       <Filter>src\Entity Component</Filter>
     </ClInclude>
-    <ClInclude Include="EntityManager.h">
+    <ClInclude Include="src\EntityComponent\EntityManager.h">
       <Filter>src\Entity Component</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
+    <ClInclude Include="src\EntityComponent\Entity.h">
       <Filter>src\Entity Component</Filter>
     </ClInclude>
-    <ClInclude Include="Constants.h">
+    <ClInclude Include="src\Constants.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="FontManager.h">
+    <ClInclude Include="src\FontManager\FontManager.h">
       <Filter>src\FontManager</Filter>
     </ClInclude>
-    <ClInclude Include="TextLabelComponent.h">
+    <ClInclude Include="src\component\TextLabelComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectileEmitterComponent.h">
+    <ClInclude Include="src\component\ProjectileEmitterComponent.h">
       <Filter>src\Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -121,7 +121,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Game Engine.rc">
+    <ResourceCompile Include="src\Game Engine.rc">
       <Filter>src</Filter>
     </ResourceCompile>
   </ItemGroup>
